@@ -83,6 +83,15 @@ if tArgs[1] == "u" then
                 f.close()
                 print("Updated cpm.")
         end
+        for k,v in pairs(installed_packages) do
+                local c = download("http://chrissx.ga:1338/packs/"..textutils.urlEncode(v)..".lua")
+                if c then
+                        local f = fs.open(v, "w")
+                        f.write(c)
+                        f.close()
+                        print("Updated "..v..".")
+                end
+        end
         -- update other packs
 elseif tArgs[1] == "i" then
         installed_packages = read_package_list()
