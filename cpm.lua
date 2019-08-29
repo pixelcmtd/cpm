@@ -38,7 +38,7 @@ end
 local function remove_package(t, p)
         local i = 0
 
-        for k in t do
+        for k,v in pairs(t) do
                 i = i + 1
         end
 
