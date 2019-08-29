@@ -2,10 +2,10 @@
 local function printUsage()
         print("cpm - by chrissx")
         print("")
-        print("  Usage:")
-        print("    cpm u")
-        print("    cpm i <packagename>")
-        print("    cpm r <packagename>")
+        print("Usage:")
+        print("  cpm u")
+        print("  cpm i <packagename>")
+        print("  cpm r <packagename>")
 end
 
 local function download(url)
@@ -18,10 +18,14 @@ local function download(url)
 end
 
 local function read_package_list()
-        local f = fs.open(".cpm_installed", "r")
-        local c = f.readAll()
-        f.close()
-        return textutils.unserialize(c)
+        if fs.exists(".cpm_installed") then
+                local f = fs.open(".cpm_installed", "r")
+                local c = f.readAll()
+                f.close()
+                return textutils.unserialize(c)
+        else
+                return {}
+        end
 end
 
 local function write_package_list(t)
@@ -93,7 +97,7 @@ elseif tArgs[1] == "i" then
         write_package_list(installed_packages)
 elseif tArgs[1] == "r" then
         installed_packages = read_package_list()
-        remove_package(installed_packages, tArgs[2])
+        installed_packages = remove_package(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 else
 --      printUsage()
