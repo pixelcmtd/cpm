@@ -1,11 +1,14 @@
 
+local SERVER = "http://chrissx.ga:1338/"
+local PACK_DB = ".cpm_installed"
+
 local function printUsage()
-        print("cpm - by chrissx")
+        print("ComputerCraft Package Manager by chrissx")
         print("")
         print("Usage:")
-        print("  cpm u")
-        print("  cpm i <packagename>")
-        print("  cpm r <packagename>")
+        print("  cpm u(pdate)")
+        print("  cpm i(nstall) <packagename>")
+        print("  cpm r(emove) <packagename>")
 end
 
 local function download(url)
@@ -18,8 +21,8 @@ local function download(url)
 end
 
 local function read_package_list()
-        if fs.exists(".cpm_installed") then
-                local f = fs.open(".cpm_installed", "r")
+        if fs.exists(PACK_DB) then
+                local f = fs.open(PACK_DB, "r")
                 local c = f.readAll()
                 f.close()
                 return textutils.unserialize(c)
@@ -29,7 +32,7 @@ local function read_package_list()
 end
 
 local function write_package_list(t)
-        local f = fs.open(".cpm_installed", "w")
+        local f = fs.open(PACK_DB, "w")
         f.write(textutils.serialize(t))
         f.close()
         return
@@ -64,19 +67,16 @@ end
 local tArgs = { ... }
 local installed_packages = {}
 
-if #tArgs < 1 then
+if #tArgs < 1 or ((tArgs[1] == "i" or tArgs[1] == "r") and #tArgs < 2) then
         printUsage()
         return
 end
 
-if (tArgs[1] == "i" or tArgs[1] == "r") and #tArgs < 2 then
-        printUsage()
-        return
-end
+local cmd = string.sub(tArgs[1], 1, 1)
 
-if tArgs[1] == "u" then
+if cmd == "u" then
         installed_packages = read_package_list()
-        local cpm = download("http://chrissx.ga:1338/cpm.lua")
+        local cpm = download(SERVER.."cpm.lua")
         if cpm then
                 local f = fs.open("cpm", "w")
                 f.write(cpm)
@@ -84,7 +84,7 @@ if tArgs[1] == "u" then
                 print("Updated cpm.")
         end
         for k,v in pairs(installed_packages) do
-                local c = download("http://chrissx.ga:1338/packs/"..textutils.urlEncode(v)..".lua")
+                local c = download(SERVER.."packs/"..textutils.urlEncode(v)..".lua")
                 if c then
                         local f = fs.open(v, "w")
                         f.write(c)
@@ -92,10 +92,9 @@ if tArgs[1] == "u" then
                         print("Updated "..v..".")
                 end
         end
-        -- update other packs
-elseif tArgs[1] == "i" then
+elseif cmd == "i" then
         installed_packages = read_package_list()
-        local c = download("http://chrissx.ga:1338/packs/"..textutils.urlEncode(tArgs[2])..".lua")
+        local c = download(SERVER.."packs/"..textutils.urlEncode(tArgs[2])..".lua")
         if c then
                 local f = fs.open(tArgs[2], "w")
                 f.write(c)
@@ -104,10 +103,10 @@ elseif tArgs[1] == "i" then
         end
         table.insert(installed_packages, tArgs[2])
         write_package_list(installed_packages)
-elseif tArgs[1] == "r" then
+elseif cmd == "r" then
         installed_packages = read_package_list()
         installed_packages = remove_package(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 else
---      printUsage()
+        printUsage()
 end
