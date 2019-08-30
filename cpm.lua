@@ -1,3 +1,4 @@
+-- cpm by chrissx
 
 local SERVER = "http://chrissx.ga:1338/"
 local PACK_DB = ".cpm_installed"
@@ -58,6 +59,20 @@ local function remove_package(t, p)
         return t
 end
 
+local function write_file(path, contents)
+        local f = fs.open(path, "w")
+        f.write(contents)
+        fs.close()
+end
+
+local function download_and_write(program, url, verb)
+        local c = download(url)
+        if c then
+                write_file(program, c)
+                print(verb.." "..program..".")
+        end
+end
+
 if not http then
         print("The http package isn't enabled in your ComputerCraft-config.")
         print("Please enable it, restart Minecraft and rerun cpm.")
@@ -76,31 +91,14 @@ local cmd = string.sub(tArgs[1], 1, 1)
 
 if cmd == "u" then
         installed_packages = read_package_list()
-        local cpm = download(SERVER.."cpm.lua")
-        if cpm then
-                local f = fs.open("cpm", "w")
-                f.write(cpm)
-                f.close()
-                print("Updated cpm.")
-        end
+        download_and_write("cpm", SERVER.."cpm.lua", "Updated")
         for k,v in pairs(installed_packages) do
-                local c = download(SERVER.."packs/"..textutils.urlEncode(v)..".lua")
-                if c then
-                        local f = fs.open(v, "w")
-                        f.write(c)
-                        f.close()
-                        print("Updated "..v..".")
-                end
+                download_and_write(v, SERVER.."packs/"..textutils.urlEncode(v)..".lua", "Updated")
         end
 elseif cmd == "i" then
         installed_packages = read_package_list()
-        local c = download(SERVER.."packs/"..textutils.urlEncode(tArgs[2])..".lua")
-        if c then
-                local f = fs.open(tArgs[2], "w")
-                f.write(c)
-                f.close()
-                print("Installed "..tArgs[2]..".")
-        end
+        local p = tArgs[2]
+        download_and_write(p, SERVER.."packs/"..textutils.urlEncode(p)..".lua", "Installed")
         table.insert(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 elseif cmd == "r" then
