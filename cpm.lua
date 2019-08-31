@@ -62,7 +62,7 @@ end
 local function write_file(path, contents)
         local f = fs.open(path, "w")
         f.write(contents)
-        fs.close()
+        f.close()
 end
 
 local function download_and_write(program, url, verb)
