@@ -7,7 +7,9 @@ if #args < 1 then
         table.insert(args, DEFAULT_LEN)
 end
 
-for i = 0, args[1] do
+-- refuel
+
+for i = 1, args[1] do
         turtle.dig()
         turtle.forward()
         turtle.digUp()
