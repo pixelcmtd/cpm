@@ -74,7 +74,7 @@ local function download_and_write(program, url, verb)
 end
 
 local function get_list(p)
-        return download(SERVER.."packs/"..textutils.urlEncode(p)..".list")
+        return textutils.unserialize(download(SERVER.."packs/"..textutils.urlEncode(p)..".list"))
 end
 
 if not http then
@@ -103,7 +103,7 @@ elseif cmd == "i" then
         installed_packages = read_package_list()
         local p = tArgs[2]
         local l = get_list(p)
-        for i,j in l do
+        for i,j in pairs(l) do
                 download_and_write(j, SERVER..j, "Installed")
         end
         table.insert(installed_packages, tArgs[2])
