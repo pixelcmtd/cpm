@@ -54,7 +54,6 @@ local function remove_package(t, p)
                 i = i - 1
         end
 
-        fs.delete(p)
         local l = get_list(p)
         for i,j in pairs(l) do
                 fs.delete(i)
