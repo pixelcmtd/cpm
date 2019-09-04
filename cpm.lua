@@ -21,6 +21,24 @@ local function download(url)
         end
 end
 
+local function write_file(path, contents)
+        local f = fs.open(path, "w")
+        f.write(contents)
+        f.close()
+end
+
+local function download_and_write(program, url, verb)
+        local c = download(url)
+        if c then
+                write_file(program, c)
+                print(verb.." "..program..".")
+        end
+end
+
+local function get_list(p)
+        return textutils.unserialize(download(SERVER.."packs/"..textutils.urlEncode(p)..".list"))
+end
+
 local function read_package_list()
         if fs.exists(PACK_DB) then
                 local f = fs.open(PACK_DB, "r")
@@ -62,23 +80,6 @@ local function remove_package(t, p)
         return t
 end
 
-local function write_file(path, contents)
-        local f = fs.open(path, "w")
-        f.write(contents)
-        f.close()
-end
-
-local function download_and_write(program, url, verb)
-        local c = download(url)
-        if c then
-                write_file(program, c)
-                print(verb.." "..program..".")
-        end
-end
-
-local function get_list(p)
-        return textutils.unserialize(download(SERVER.."packs/"..textutils.urlEncode(p)..".list"))
-end
 
 if not http then
         print("The http package isn't enabled in your ComputerCraft-config.")
