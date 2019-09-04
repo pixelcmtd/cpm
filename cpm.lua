@@ -73,6 +73,10 @@ local function download_and_write(program, url, verb)
         end
 end
 
+local function get_list(p)
+        return download(SERVER.."packs/"..textutils.urlEncode(p)..".list")
+end
+
 if not http then
         print("The http package isn't enabled in your ComputerCraft-config.")
         print("Please enable it, restart Minecraft and rerun cpm.")
@@ -98,7 +102,10 @@ if cmd == "u" then
 elseif cmd == "i" then
         installed_packages = read_package_list()
         local p = tArgs[2]
-        download_and_write(p, SERVER.."packs/"..textutils.urlEncode(p)..".lua", "Installed")
+        local l = get_list(p)
+        for i,j in l do
+                download_and_write(j, SERVER..j, "Installed")
+        end
         table.insert(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 elseif cmd == "r" then
