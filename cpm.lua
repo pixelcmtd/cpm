@@ -104,7 +104,7 @@ elseif cmd == "i" then
         local p = tArgs[2]
         local l = get_list(p)
         for i,j in pairs(l) do
-                download_and_write(j, SERVER..j, "Installed")
+                download_and_write(i, SERVER..j, "Installed")
         end
         table.insert(installed_packages, tArgs[2])
         write_package_list(installed_packages)

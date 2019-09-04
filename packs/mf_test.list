@@ -1,1 +1,1 @@
-{[1]="packs/mf_test_print.lua",[2]="packs/mf_test_getmessage.lua",}
+{["mf_test_print"]="packs/mf_test_print.lua",["mf_test_getmessage"]="packs/mf_test_getmessage.lua",}
