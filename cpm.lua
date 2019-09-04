@@ -55,6 +55,10 @@ local function remove_package(t, p)
         end
 
         fs.delete(p)
+        local l = get_list(p)
+        for i,j in pairs(l) do
+                fs.delete(i)
+        end
 
         return t
 end
@@ -96,8 +100,11 @@ local cmd = string.sub(tArgs[1], 1, 1)
 if cmd == "u" then
         installed_packages = read_package_list()
         download_and_write("cpm", SERVER.."cpm.lua", "Updated")
-        for k,v in pairs(installed_packages) do
-                download_and_write(v, SERVER.."packs/"..textutils.urlEncode(v)..".lua", "Updated")
+        for k,p in pairs(installed_packages) do
+                local l = get_list(p)
+                for i,j in pairs(l) do
+                        download_and_write(i, SERVER..j, "Updated")
+                end
         end
 elseif cmd == "i" then
         installed_packages = read_package_list()
