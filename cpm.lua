@@ -10,6 +10,7 @@ local function printUsage()
         print("  cpm u(pdate)")
         print("  cpm i(nstall) <packagename>")
         print("  cpm r(emove) <packagename>")
+        return 0
 end
 
 local function download(url)
@@ -88,17 +89,19 @@ if not http then
 end
 
 local tArgs = { ... }
-local installed_packages = {}
 
-if #tArgs < 1 or ((tArgs[1] == "i" or tArgs[1] == "r") and #tArgs < 2) then
-        printUsage()
-        return
+if #tArgs < 1 then
+        return printUsage()
 end
 
 local cmd = string.sub(tArgs[1], 1, 1)
 
+if (cmd == "i" or cmd == "r") and #tArgs < 2 then
+        return printUsage()
+end
+
 if cmd == "u" then
-        installed_packages = read_package_list()
+        local installed_packages = read_package_list()
         download_and_write("cpm", SERVER.."cpm.lua", "Updated")
         for k,p in pairs(installed_packages) do
                 local l = get_list(p)
@@ -107,7 +110,7 @@ if cmd == "u" then
                 end
         end
 elseif cmd == "i" then
-        installed_packages = read_package_list()
+        local installed_packages = read_package_list()
         local p = tArgs[2]
         local l = get_list(p)
         for i,j in pairs(l) do
@@ -116,7 +119,7 @@ elseif cmd == "i" then
         table.insert(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 elseif cmd == "r" then
-        installed_packages = read_package_list()
+        local installed_packages = read_package_list()
         installed_packages = remove_package(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 else

@@ -1,15 +1,15 @@
 
-local DEFAULT_LEN = 50
+local len = 50
 
 local args = { ... }
 
-if #args < 1 then
-        table.insert(args, DEFAULT_LEN)
+if #args > 1 then
+        len = args[1]
 end
 
--- refuel
+-- TODO: refuel
 
-for i = 1, args[1] do
+for i = 1, len do
         turtle.dig()
         turtle.forward()
         turtle.digUp()
