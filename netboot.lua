@@ -1,6 +1,6 @@
 -- cpm netboot by chrissx
 
-local SERVER = "http://chrissx.ga:1338/"
+local SERVER = "http://chrissxyt.github.io/cpm/"
 local SUPPORT = "Twitter @chrissxMedia"
 
 local res = http.get(SERVER.."cpm.lua")
