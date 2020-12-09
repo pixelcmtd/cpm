@@ -1,6 +1,6 @@
 -- cpm by chrissx
 
-local SERVER = "http://chrissxyt.github.io/cpm/"
+local SERVER = "https://chrissxyt.github.io/cpm/"
 local PACK_DB = ".cpm_installed"
 
 local function printUsage()
