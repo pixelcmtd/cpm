@@ -1,0 +1,7 @@
+#!/bin/sh
+
+A="$(mktemp -d)"
+mkdir -p "$A/config" "$A/computer/0"
+cp global.json "$A/config/global.json"
+cp cpm.lua "$A/computer/0/cpm"
+craftos -c --directory "$A"
