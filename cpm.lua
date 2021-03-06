@@ -10,6 +10,7 @@ local function printUsage()
         print("  cpm u(pdate)")
         print("  cpm i(nstall) <packagename>")
         print("  cpm r(emove) <packagename>")
+        print("  cpm l(ist)")
         return 0
 end
 
@@ -34,6 +35,10 @@ local function download_and_write(program, url, verb)
                 write_file(program, c)
                 print(verb.." "..program..".")
         end
+end
+
+local function get_packages()
+        return textutils.unserialize(download(SERVER.."packages.list"))
 end
 
 local function get_list(p)
@@ -122,6 +127,11 @@ elseif cmd == "r" then
         local installed_packages = read_package_list()
         installed_packages = remove_package(installed_packages, tArgs[2])
         write_package_list(installed_packages)
+elseif cmd == "l" then
+        for p in get_packages() do
+                print(p)
+        end
 else
         printUsage()
+        return 1
 end

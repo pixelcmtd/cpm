@@ -11,3 +11,5 @@ Or if you are using a recent version of ComputerCraft, you can use:
 ```
 pastebin run pGA3p03s
 ```
+If the pastebin command isn't available at all, you will have to type
+in the [µNetboot](unetboot.lua) manually.
