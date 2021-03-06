@@ -128,9 +128,8 @@ elseif cmd == "r" then
         installed_packages = remove_package(installed_packages, tArgs[2])
         write_package_list(installed_packages)
 elseif cmd == "l" then
-        for k,v in pairs(get_packages()) do
-                print(k)
-                print(v)
+        for _,p in pairs(get_packages()) do
+                print(p)
         end
 else
         printUsage()
