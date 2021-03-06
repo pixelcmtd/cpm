@@ -1,0 +1,3 @@
+test {
+        !craftos -c --script netboot.lua
+}
