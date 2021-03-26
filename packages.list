@@ -1,6 +1,9 @@
 {
+        "cpm",
         "dig",
+        "kill",
         "mf_test",
         "poucher",
+        "repl",
         "stripmine",
 }

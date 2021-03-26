@@ -1,5 +1,11 @@
 -- cpm by chrissx
 
+if not http then
+        print("The http package isn't enabled in your ComputerCraft-config.")
+        print("Please enable it, restart Minecraft and rerun cpm.")
+        return
+end
+
 local SERVER = "https://chrissxyt.github.io/cpm/"
 local PACK_DB = ".cpm_installed"
 
@@ -52,7 +58,7 @@ local function read_package_list()
                 f.close()
                 return textutils.unserialize(c)
         else
-                return {}
+                return {"cpm"}
         end
 end
 
@@ -63,12 +69,16 @@ local function write_package_list(t)
         return
 end
 
-local function remove_package(t, p)
+local function table_len(t)
         local i = 0
-
         for k,v in pairs(t) do
                 i = i + 1
         end
+        return i
+end
+
+local function remove_package(t, p)
+        local i = table_len(t)
 
         while i > 0 do
                 if t[i] == p then
@@ -87,12 +97,6 @@ local function remove_package(t, p)
 end
 
 
-if not http then
-        print("The http package isn't enabled in your ComputerCraft-config.")
-        print("Please enable it, restart Minecraft and rerun cpm.")
-        return
-end
-
 local tArgs = { ... }
 
 if #tArgs < 1 then
@@ -107,7 +111,6 @@ end
 
 if cmd == "u" then
         local installed_packages = read_package_list()
-        download_and_write("cpm", SERVER.."cpm.lua", "Updated")
         for k,p in pairs(installed_packages) do
                 local l = get_list(p)
                 for i,j in pairs(l) do
