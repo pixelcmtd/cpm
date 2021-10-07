@@ -1,4 +1,4 @@
--- cpm by chrissx
+-- cpm by pixel, chrissx Media
 
 if not http then
         print("The http package isn't enabled in your ComputerCraft-config.")
@@ -6,11 +6,11 @@ if not http then
         return
 end
 
-local SERVER = "https://chrissxyt.github.io/cpm/"
+local SERVER = "https://pixelcmtd.github.io/cpm/"
 local PACK_DB = ".cpm_installed"
 
 local function printUsage()
-        print("ComputerCraft Package Manager by chrissx")
+        print("ComputerCraft Package Manager by pixel, chrissx Media")
         print("")
         print("Usage:")
         print("  cpm u(pdate)")

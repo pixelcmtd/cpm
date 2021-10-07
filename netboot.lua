@@ -1,6 +1,6 @@
--- cpm netboot by chrissx
+-- cpm netboot by pixel, chrissx Media
 
-local SERVER = "https://chrissxyt.github.io/cpm/"
+local SERVER = "https://pixelcmtd.github.io/cpm/"
 local SUPPORT = "Twitter @chrissxMedia"
 
 if not http then
